@@ -1,0 +1,80 @@
+server {
+
+    listen 80;
+    listen 443 ssl;
+    server_name valuation.work;
+    ssl_certificate /etc/letsencrypt/live/valuation.work/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/valuation.work/privkey.pem;
+
+    proxy_read_timeout 3600;
+    proxy_connect_timeout 3600;
+    proxy_send_timeout 3600;
+
+     location / {
+        proxy_pass http://0.0.0.0:9000;
+    }
+}
+
+server {
+
+    listen 80;
+    listen 443 ssl;
+    server_name flookup.co;
+    ssl_certificate /etc/letsencrypt/live/flookup.co/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/flookup.co/privkey.pem;
+
+    proxy_read_timeout 3600;
+    proxy_connect_timeout 3600;
+    proxy_send_timeout 3600;
+
+     location / {
+     location / {
+        proxy_pass http://0.0.0.0:8000;
+    }
+}
+
+server {
+    listen 443 default_server ssl;
+    server_name mcatech.in;
+    ssl_certificate /etc/letsencrypt/live/mcatech.in/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/mcatech.in/privkey.pem; # managed by Certbot
+
+    proxy_read_timeout 3600;
+    proxy_connect_timeout 3600;
+    proxy_send_timeout 3600;
+
+     location / {
+        proxy_pass http://0.0.0.0:5000;
+    }
+
+}
+server {
+
+    listen 80;
+    listen 443 ssl;
+    server_name flookup.co.in;
+    ssl_certificate /etc/letsencrypt/live/flookup.co.in/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/flookup.co.in/privkey.pem;
+
+    proxy_read_timeout 3600;
+    proxy_connect_timeout 3600;
+    proxy_send_timeout 3600;
+
+     location / {
+        proxy_pass http://0.0.0.0:9001;
+    }
+}
+
+  
+server {
+    if ($host = mcatech.in) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+
+    listen 80;
+    server_name mcatech.in;
+    return 404; # managed by Certbot
+
+}
