@@ -1,0 +1,16 @@
+server {
+
+    listen 80;
+    listen 443 ssl;
+    server_name easemycompliance.com;
+    proxy_set_header Host $http_host;
+    ssl_certificate /etc/letsencrypt/live/easemycompliance.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/easemycompliance.com/privkey.pem;
+    client_max_body_size 10M;
+    location /static/ {
+        alias /home/ubuntu/company_registration_portal/static/;
+    }
+    location / {
+        proxy_pass http://0.0.0.0:5000;
+    }
+}
